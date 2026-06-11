@@ -16,7 +16,6 @@ class UserInviteController extends Controller
     public function create()
     {
         $user = auth()->user();
-
         if ($user->hasRole('Member')) {
             abort(403);
         }
@@ -69,7 +68,7 @@ class UserInviteController extends Controller
 
         Mail::to($user->email)
             ->send(new UserInvitationMail($user, $inviteUrl));
-            
+
         return redirect()->route('short-urls.list')->with('success', 'User invited successfully');
     }
 

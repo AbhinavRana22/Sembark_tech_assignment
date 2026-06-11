@@ -11,9 +11,7 @@ class ShortUrlController extends Controller
     public function index()
     {
         $user = auth()->user();
-
         if ($user->hasRole('Super Admin')) {
-
             $shortUrls = ShortUrl::with([
                 'company',
                 'user'
@@ -38,7 +36,6 @@ class ShortUrlController extends Controller
             )
             ->latest()
             ->paginate(10);
-
         }
 
         return view(

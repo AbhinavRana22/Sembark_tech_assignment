@@ -9,12 +9,10 @@ use Illuminate\Support\Facades\Hash;
 
 class InvitationController extends Controller
 {
-      public function show(Request $request)
+    public function show(Request $request)
     {
         $email = $request->email;
-
-        $user = User::where('email', $email)
-            ->firstOrFail();
+        $user = User::where('email', $email)->firstOrFail();
 
         if (!empty($user->password)) {
             return redirect()
@@ -24,7 +22,6 @@ class InvitationController extends Controller
                     'Invitation already accepted.'
                 );
         }
-
         return view(
             'auth.accept-invitation',
             compact('user')
@@ -56,14 +53,11 @@ class InvitationController extends Controller
 
         $user->update([
             'name' => $request->name,
-            'password' => Hash::make(
-                $request->password
-            ),
+            'password' => Hash::make($request->password),
             'email_verified_at' => now(),
         ]);
 
         Auth::login($user);
-
         return redirect()
             ->route('dashboard')
             ->with(
